@@ -3,6 +3,7 @@ package com.bote795.runner.gameObjects;
 /**
  * Created by HULK on 3/24/2015.
  */
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
@@ -39,13 +40,22 @@ public class Floor extends Scrollable {
         width = r.nextInt(90) + 15;
         isScored = false;
     }
+    public boolean isScored() {
+        return isScored;
+    }
+    public void setScored(boolean b) {
+        isScored = b;
+    }
+
     public void onRestart(float x, float scrollSpeed) {
         velocity.x = scrollSpeed;
         reset(x);
     }
-    public boolean collides(Player bird) {
+    public boolean collides(Player p) {
         //TODO setup collision to set player to stay up
-       return true;
+        if(position.y < p.getX() + p.getWidth())
+            return Intersector.overlaps(p.getBoundingCircle(),platformArea);
+       return false;
     }
     public Rectangle getPlatformArea(){ return  platformArea; }
 }
